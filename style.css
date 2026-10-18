@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+:root {
+    --color-accent: hsla(245, 100%, 65%, 1);
+    --color-text: hsla(0, 0%, 15%, 1);
+    --color-bg: hsla(0, 0%, 85%, 1);
+}
+
+body {
+    font-size: 12pt;
+    font-weight: 400;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    position: fixed;
+    inset: 0;
+}
+
+.page {
+    position: absolute;
+    inset: 0;
+    display: none;
+}
+
+.page.actived {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+}
+
+.page-header {
+    /* background-color: hsla(from var(--color-bg) h s 85%/1); */
+    text-align: center;
+    height: 12%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: end;
+    padding: 10px 0;
+}
+
+.page-title {
+    font-size: 1.7rem;
+    font-weight: 500;
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.6;
+}
+
+.page-content {
+    padding: 15px;
+}
+
+.inputs-group {
+    background-color: hsla(0, 0%, 93%, 1);
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 20px;
+    box-shadow: 0 10px 30px #0002;
+}
+
+.inputs-group hr {
+    opacity: 0.1;
+}
+
+.inputs-row {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 10px;
+}
+
+.input-field {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.input-field.price-input {
+    flex: 2;
+}
+
+.input-field.cost-input {
+    flex: 3;
+}
+
+.input-field label {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    font-weight: 400;
+    margin-left: 8px;
+}
+
+.input-field input {
+    outline: none;
+    background-color: hsla(0, 0%, 95%, 1);
+    border: 1px solid hsla(0, 0%, 80%, 1);
+    border-radius: 0.5rem;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 6px 10px;
+    transition: all 0.3s ease;
+}
+
+.input-field.fuelvolume-input label {
+    pointer-events: none;
+}
+    
+    
+.input-field.fuelvolume-input input {
+    color: hsla(0, 0%, 50%, 1);
+    background-color: hsla(0, 0%, 90%, 1);
+    pointer-events: none;
+}
+
+.input-field input:focus {
+    box-shadow: 0 0 0 2px var(--color-accent);
+    background-color: hsla(0, 0%, 98%, 1);
+}
+
+ul {
+    background-color: hsla(0, 0%, 90%, 1);
+    /* padding: 10px; */
+    display: none;
+    flex-flow: column nowrap;
+    gap: 1px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 2px 20px #0002;
+}
+
+input:focus + ul {
+    display: flex;
+}
+
+li {
+    list-style: none;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    /* border: 1px solid #ccc; */
+    color: hsla(0, 0%, 50%, 1);
+    background-color: hsla(0, 0%, 97%, 1);
+    /* border-radius: 0.5rem; */
+}
+
+
+

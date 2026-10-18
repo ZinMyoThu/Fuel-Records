@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fuel Log App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="page actived" id="add-page">
+            <div class="page-header">
+                <h1 class="page-title">New Record</h1>
+                <p class="page-subtitle">New fuel-up</p>
+            </div>
+            <div class="page-content">
+                <form id="fuel-up-form">
+                    <div class="inputs-group">
+                        <div class="input-field odometer-input">
+                            <label for="odometer-input" class="input-label">Odometer (km)</label>
+                            <input type="number" id="odometer-input" placeholder="4705" value="">
+                        </div>
+                        <hr>
+                        <div class="inputs-row">
+                            <div class="input-field price-input">
+                                <label for="price-input" class="input-label">Price (MMK/L)</label>
+                                <input type="number" id="price-input" placeholder="4705" value="">
+                            </div>
+                            <div class="input-field cost-input">
+                                <label for="cost-input" class="input-label">Cost (MMK)</label>
+                                <input type="number" id="cost-input" placeholder="60000" value="">
+                            </div>
+                        </div> <!-- Inpus Row End -->
+                        <div class="input-field fuelvolume-input">
+                            <label for="fuelvolume-input" class="input-label">Fuel Volume (L)</label>
+                            <input type="number" id="fuelvolume-input" value="0.00" readonly>
+                        </div>
+                        <hr>
+                        <div class="input-field station-input">
+                            <label for="station-input" class="input-label">Station</label>
+                            <input type="number" id="station-input" placeholder="Fuel station name" value="">
+                            <ul class="dropdown-list" id="station-list">
+                                <li>Max Energy</li>
+                                <li>Denko</li>
+                            </ul>
+                        </div>
+                    </div> <!-- Inputs Group End -->
+                </form>
+            </div>
+        </div>
+        
+        <div class="page" id="history-page">
+            <div class="page-header">
+                <h1 class="page-title">New Record</h1>
+                <p class="page-subtitle">New fuel-up</p>
+            </div>
+            <div class="page-content">
+                <!-- Form Codes -->
+            </div>
+        </div>
+        
+        
+    </div>
+    
+    <script src="/js/script.js" type="module"></script>
+</body>
+
+</html>

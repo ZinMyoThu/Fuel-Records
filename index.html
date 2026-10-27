@@ -3,66 +3,207 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Fuel Log App</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
     <div class="container">
-        <div class="page actived" id="add-page">
+        <nav id="bottom-navbar">
+            <button type="button" class="navbtn" id="dashboard-navbtn">
+                <i class="navbtn-icon fa-solid fa-chart-line"></i>
+                <span class="navbtn-label">Dashboard</span>
+            </button>
+            <button type="button" class="navbtn" id="add-navbtn">
+                <i class="navbtn-icon fa-regular fa-add"></i>
+                <span class="navbtn-label">Add</span>
+            </button>
+            <button type="button" class="navbtn actived" id="history-navbtn">
+                <i class="navbtn-icon fa-solid fa-list"></i>
+                <span class="navbtn-label">History</span>
+            </button>
+            <button type="button" class="navbtn" id="settings-navbtn">
+                <i class="navbtn-icon fa-solid fa-gear"></i>
+                <span class="navbtn-label">Settings</span>
+            </button>
+            <div id="navbar-indicator"></div>
+        </nav>
+        
+        <div class="page" id="dashboard-page">
+            <div class="page-header">
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Summary</p>
+            </div>
+            <div class="page-content">
+            </div>
+        </div>
+        
+        <div class="page" id="add-page">
             <div class="page-header">
                 <h1 class="page-title">New Record</h1>
                 <p class="page-subtitle">New fuel-up</p>
             </div>
             <div class="page-content">
-                <form id="fuel-up-form">
-                    <div class="inputs-group">
-                        <div class="input-field odometer-input">
-                            <label for="odometer-input" class="input-label">Odometer (km)</label>
-                            <input type="number" id="odometer-input" placeholder="4705" value="">
-                        </div>
-                        <hr>
-                        <div class="inputs-row">
-                            <div class="input-field price-input">
-                                <label for="price-input" class="input-label">Price (MMK/L)</label>
-                                <input type="number" id="price-input" placeholder="4705" value="">
+            </div>
+        </div>
+        
+        <div class="page actived" id="history-page">
+            <div class="page-header">
+                <h1 class="page-title">Fuel Records</h1>
+                <p class="page-subtitle" id="history-page-subtitle">Fuel history</p>
+            </div>
+            <div class="page-content" id="history-page-content">
+                <div id="fuel-records-container"></div>
+                <div id="records-list-btns-row">
+                    <button class="list-btn" id="opem-new-fuelup-form-btn" type="button"><span class="btn-icon">&plus;</span> New Fuel-Up</button>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="page" id="settings-page">
+            <div class="page-header">
+                <h1 class="page-title">Settings</h1>
+                <p class="page-subtitle">Adjust app setting</p>
+            </div>
+            <div class="page-content">
+            </div>
+        </div>
+        
+        <div id="overlay-layer">
+            <form class="modal form-modal" id="fuel-up-form" data-mode="new-form" data-docid="">
+                <div class="modal-header">
+                    <button class="modal-btn left close-modal-btn" id="close-fuelup-form-btn" type="button"></button>
+                    <button class="modal-btn right reset-modal-btn" id="reset-fuelup-form-btn" type="button">Reset</button>
+                    <h1 class="modal-title">Form Modal</h1>
+                    <p class="modal-subtitle">Form subtitle</p>
+                </div>
+                
+                <div class="inputs-group">
+                    <div class="inputs-row">
+                        <div class="input-field date-input">
+                            <label for="date-input" class="input-label">Date</label>
+                            <div class="input-wrapper">
+                                <input type="date" class="input-input" id="date-input" placeholder="" value="">
                             </div>
-                            <div class="input-field cost-input">
-                                <label for="cost-input" class="input-label">Cost (MMK)</label>
-                                <input type="number" id="cost-input" placeholder="60000" value="">
-                            </div>
-                        </div> <!-- Inpus Row End -->
-                        <div class="input-field fuelvolume-input">
-                            <label for="fuelvolume-input" class="input-label">Fuel Volume (L)</label>
-                            <input type="number" id="fuelvolume-input" value="0.00" readonly>
                         </div>
-                        <hr>
-                        <div class="input-field station-input">
-                            <label for="station-input" class="input-label">Station</label>
-                            <input type="number" id="station-input" placeholder="Fuel station name" value="">
-                            <ul class="dropdown-list" id="station-list">
-                                <li>Max Energy</li>
-                                <li>Denko</li>
+                        <div class="input-field sequence-input">
+                            <label for="sequence-input" class="input-label">Sequence</label>
+                            <div class="input-wrapper">
+                                <input type="text" class="input-input dropdown-input" id="sequence-input" placeholder="" value="ပထမအကြိမ်">
+                                <button type="button" class="input-reset-btn"></button>
+                            </div>
+                            <ul class="dropdown-list" id="sequence-list">
+                                <li class="dropdown-list-item">ပထမအကြိမ်</li>
+                                <li class="dropdown-list-item">ဒုတိယအကြိမ်</li>
+                                <li class="dropdown-list-item">တတိယအကြိမ်</li>
                             </ul>
                         </div>
-                    </div> <!-- Inputs Group End -->
-                </form>
+                    </div>
+                    <div class="inputs-row">
+                        <div class="input-field fillingType-segment">
+                            <label for="fillingType-radio" class="input-label">Filling</label>
+                            <input type="hidden" class="input-input segment-value-input" id="fillingType-input" value="Partial">
+                            <div class="input-wrapper segment-container">
+                                <input type="radio" class="segment-input left" id="fillingTypeRadio-Partial" name="fillingType-radio" value="Partial">
+                                <label for="fillingTypeRadio-Partial" class="segment-btn">Partial</label>
+                                <input type="radio" class="segment-input right" id="fillingTypeRadio-Full" name="fillingType-radio" value="Full">
+                                <label for="fillingTypeRadio-Full" class="segment-btn">Full</label>
+                                <div class="segment-indicator"></div>
+                            </div>
+                        </div>
+                        <div class="input-field fuelType-segment">
+                            <label for="fuelType-radio" class="input-label">Fuel Type</label>
+                            <input type="hidden" class="input-input segment-value-input" id="fuelType-input" value="92 Ron">
+                            <div class="input-wrapper segment-container">
+                                <input type="radio" class="segment-input left" id="fuelTypeRadio-92ron" name="fuelType-radio" value="92 Ron">
+                                <label for="fuelTypeRadio-92ron" class="segment-btn">92 Ron</label>
+                                <input type="radio" class="segment-input right" id="fuelTypeRadio-95ron" name="fuelType-radio" value="95 Ron">
+                                <label for="fuelTypeRadio-95ron" class="segment-btn">95 Ron</label>
+                                <div class="segment-indicator"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inputs-row">
+                        <div class="input-field station-input">
+                            <label for="station-input" class="input-label">Station</label>
+                            <div class="input-wrapper">
+                                <input type="text" class="input-input dropdown-input" id="station-input" placeholder="Station name" value="">
+                                <button type="button" class="input-reset-btn"></button>
+                            </div>
+                            <ul class="dropdown-list" id="station-list">
+                                <li class="dropdown-list-item">Max Energy</li>
+                                <li class="dropdown-list-item">Denko</li>
+                            </ul>
+                        </div>
+                        <div class="input-field odometer-input">
+                            <label for="odometer-input" class="input-label">Odometer (km)</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="input-input" id="odometer-input" placeholder="4705" value="">
+                                <button type="button" class="input-reset-btn"></button>
+                            </div>
+                        </div>
+                    </div> <!-- Inputs Row End -->
+                </div> <!-- Inputs Group End -->
+                
+                <div class="inputs-group highlight">
+                    <div class="inputs-row">
+                        <div class="input-field price-input">
+                            <label for="price-input" class="input-label">Price (MMK/L)</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="input-input" id="price-input" placeholder="4705" value="">
+                                <button type="button" class="input-reset-btn"></button>
+                            </div>
+                        </div>
+                        <div class="input-field cost-input">
+                            <label for="cost-input" class="input-label">Cost (MMK)</label>
+                            <div class="input-wrapper">
+                                <input type="number" class="input-input" id="cost-input" placeholder="60000" value="">
+                                <button type="button" class="input-reset-btn"></button>
+                            </div>
+                        </div>
+                    </div> <!-- Inpus Row End -->
+                    <div class="input-field fuelVolume-input">
+                        <label for="fuelVolume-input" class="input-label">Fuel Volume (L)</label>
+                        <div class="input-wrapper">
+                            <input type="number" class="input-input" id="fuelVolume-input" placeholder="12.34" value="" disabled>
+                        </div>
+                    </div>
+                </div> <!-- Inputs Group End -->
+                
+                <div class="inputs-group">
+                    <div class="input-field notes-input">
+                        <label for="notes-input" class="input-label">Notes</label>
+                        <div class="input-wrapper">
+                            <!-- <input type="text" class="input-input" id="notes-input" placeholder="Notes" value=""> -->
+                            <textarea class="input-input" id="notes-input" rows="2" placeholder="Notes..."></textarea>
+                        </div>
+                    </div>
+                </div> <!-- Inputs Group End -->
+                
+                <div class="form-btns-row stack">
+                    <button class="form-btn prev-record-btn icon new edit" id="prev-record-form-btn" type="button"><i class="fa fa-solid fa-chevron-left"></i></button>
+                    <button class="form-btn delete-record-btn icon edit" id="delete-record-form-btn" type="button" style="color: #c22"><i class="fa fa-solid fa-trash"></i></button>
+                    <button class="form-btn cancel-record-btn danger new" id="cancel-record-form-btn" type="button">Cancel</button>
+                    <button class="form-btn duplicate-record-btn icon edit" id="duplicate-record-form-btn" type="button" style="color: #02c"><i class="fa fa-solid fa-copy"></i></button>
+                    <button class="form-btn save-record-btn primary new" id="save-record-form-btn" type="button">Save</button>
+                    <button class="form-btn new-record-btn icon edit" id="new-record-form-btn" type="button"><i class="fa fa-solid fa-add"></i></button>
+                    <button class="form-btn next-record-btn icon new edit" id="next-record-form-btn" type="button"><i class="fa fa-solid fa-chevron-right"></i></button>
+                </div>
+            </form>
+            
+            <div class="modal alert-box" id="alert-box">
+                <h1 class="alert-title">Alert Title</h1>
+                <p class="alert-message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus dolorum veritatis repellat provident fugiat quam sunt sapiente, praesentium adipisci voluptas perspiciatis eligendi ex inventore ad dolor dolores eaque corporis eveniet.</p>
+                <div class="alert-btns-row">
+                    <button class="alert-btn cancel show" type="button">Cancel</button>
+                    <button class="alert-btn ok show" type="button">OK</button>
+                </div>
             </div>
         </div>
-        
-        <div class="page" id="history-page">
-            <div class="page-header">
-                <h1 class="page-title">New Record</h1>
-                <p class="page-subtitle">New fuel-up</p>
-            </div>
-            <div class="page-content">
-                <!-- Form Codes -->
-            </div>
-        </div>
-        
-        
     </div>
     
     <script src="/js/script.js" type="module"></script>

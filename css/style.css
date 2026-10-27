@@ -1,14 +1,45 @@
+@import url('/css/navbar.css');
+@import url('/css/overlay-layer.css');
+@import url('/css/pages.css');
+@import url('/css/page-history.css');
+@import url('/css/form.css');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 :root {
+    /* App Global */
     --color-accent: hsla(245, 100%, 65%, 1);
     --color-text: hsla(0, 0%, 15%, 1);
     --color-bg: hsla(0, 0%, 85%, 1);
+    --color-input-bg: hsla(0, 0%, 78%, 1);
+    
+    /* Navbar */
+    --navbar-color: hsla(0, 0%, 90%, 0.2);
+    --navbtn-height: 50px;
+    --navbtn-corner-radius: calc((var(--navbtn-height) / 2) + 5px);
+    --navbar-padding: 8px;
+    --navbar-height: calc(var(--navbtn-height) + (var(--navbar-padding) * 2));
+    --navbar-corner-radius: calc(var(--navbtn-corner-radius) + var(--navbar-padding));
+    --navbar-gap: calc(var(--navbar-padding) / 2);
+    
+    /* Page Float Button */
+    --page-float-btn-color: var(--color-accent);
+    --page-float-btn-size: 60px;
+}
+
+input,
+button,
+li {
+    font-size: 16px;
+    outline: none;
+    border: none;
 }
 
 body {
@@ -29,17 +60,19 @@ body {
 .page.actived {
     display: flex;
     flex-flow: column nowrap;
-    gap: 10px;
+    /* gap: 10px; */
 }
 
 .page-header {
-    /* background-color: hsla(from var(--color-bg) h s 85%/1); */
+    /* background-color: hsla(from var(--color-bg) h s 80%/1); */
     text-align: center;
     height: 12%;
     display: flex;
     flex-flow: column nowrap;
     justify-content: end;
     padding: 10px 0;
+    z-index: 1;
+    box-shadow: 0 10px 30px #0002;
 }
 
 .page-title {
@@ -54,102 +87,24 @@ body {
 }
 
 .page-content {
+    position: relative;
+    flex: 1;
     padding: 15px;
 }
 
-.inputs-group {
-    background-color: hsla(0, 0%, 93%, 1);
-    border-radius: 1rem;
-    padding: 1rem;
+
+
+
+
+/* Global Style */
+.stack {
     display: flex;
-    flex-flow: column nowrap;
-    gap: 20px;
-    box-shadow: 0 10px 30px #0002;
 }
 
-.inputs-group hr {
-    opacity: 0.1;
-}
-
-.inputs-row {
-    display: flex;
+.stack.h {
     flex-flow: row nowrap;
-    gap: 10px;
 }
 
-.input-field {
-    width: 100%;
-    display: flex;
+.stack.v {
     flex-flow: column nowrap;
 }
-
-.input-field.price-input {
-    flex: 2;
-}
-
-.input-field.cost-input {
-    flex: 3;
-}
-
-.input-field label {
-    font-size: 0.85rem;
-    opacity: 0.5;
-    font-weight: 400;
-    margin-left: 8px;
-}
-
-.input-field input {
-    outline: none;
-    background-color: hsla(0, 0%, 95%, 1);
-    border: 1px solid hsla(0, 0%, 80%, 1);
-    border-radius: 0.5rem;
-    width: 100%;
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 6px 10px;
-    transition: all 0.3s ease;
-}
-
-.input-field.fuelvolume-input label {
-    pointer-events: none;
-}
-    
-    
-.input-field.fuelvolume-input input {
-    color: hsla(0, 0%, 50%, 1);
-    background-color: hsla(0, 0%, 90%, 1);
-    pointer-events: none;
-}
-
-.input-field input:focus {
-    box-shadow: 0 0 0 2px var(--color-accent);
-    background-color: hsla(0, 0%, 98%, 1);
-}
-
-ul {
-    background-color: hsla(0, 0%, 90%, 1);
-    /* padding: 10px; */
-    display: none;
-    flex-flow: column nowrap;
-    gap: 1px;
-    border-radius: 0.75rem;
-    overflow: hidden;
-    box-shadow: 0 2px 20px #0002;
-}
-
-input:focus + ul {
-    display: flex;
-}
-
-li {
-    list-style: none;
-    font-size: 0.85rem;
-    padding: 6px 12px;
-    /* border: 1px solid #ccc; */
-    color: hsla(0, 0%, 50%, 1);
-    background-color: hsla(0, 0%, 97%, 1);
-    /* border-radius: 0.5rem; */
-}
-
-
-

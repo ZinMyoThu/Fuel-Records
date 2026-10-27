@@ -1,0 +1,11 @@
+/* Pages Action Buttons */
+.page-float-action-btn {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    right: 10px;
+    bottom: calc(var(--navbar-height) * 1);
+    background-color: var(--color-accent);
+}
+

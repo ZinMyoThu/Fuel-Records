@@ -56,9 +56,12 @@
                 <p class="page-subtitle" id="history-page-subtitle">Fuel history</p>
             </div>
             <div class="page-content" id="history-page-content">
-                <div id="fuel-records-container"></div>
-                <div id="records-list-btns-row">
-                    <button class="list-btn" id="opem-new-fuelup-form-btn" type="button"><span class="btn-icon">&plus;</span> New Fuel-Up</button>
+                <div class="fuel-history-wrapper scroll-container">
+                    <div id="fuel-records-container"></div>
+                </div>
+                <div class="records-list-btns-row" id="history-filter-controls">
+                    <button class="filter-control-btn" id="filter-history-btn" type="button">Filter by <i class="fa fa-solid fa-filter fa-sm"></i></button>
+                    <button class="filter-control-btn" id="sort-history-btn" type="button">Date<i class="fa fa-solid fa-sort"></i></button>
                 </div>
             </div>
             
@@ -76,9 +79,14 @@
         <div id="overlay-layer">
             <form class="modal form-modal" id="fuel-up-form" data-mode="new-form" data-docid="">
                 <div class="modal-header">
-                    <button class="modal-btn left close-modal-btn" id="close-fuelup-form-btn" type="button"></button>
-                    <button class="modal-btn right reset-modal-btn" id="reset-fuelup-form-btn" type="button">Reset</button>
-                    <h1 class="modal-title">Form Modal</h1>
+                    <div class="modal-header-btns-group left">
+                        <button class="modal-header-btn close-modal-btn new edit" id="close-modal-btn" type="button"><i class="fa fa-solid fa-close"></i></button>
+                        <button class="modal-header-btn reset-form-btn new" id="reset-form-btn" type="button"><i class="fa fa-solid fa fa-undo"></i></button>
+                    </div>
+                    <div class="modal-header-btns-group right">
+                        <button class="modal-header-btn done-form-btn new edit" id="done-form-btn" type="button"><i class="fa fa-check" style="font-size: 1.25rem;"></i></button>
+                    </div>
+                    <h1 class="modal-title">Form</h1>
                     <p class="modal-subtitle">Form subtitle</p>
                 </div>
                 
@@ -184,14 +192,15 @@
                     </div>
                 </div> <!-- Inputs Group End -->
                 
+                <p class="current-index-info"><span id="current-record-index">1</span> of <span id="total-records-count">10</span></p>
                 <div class="form-btns-row stack">
-                    <button class="form-btn prev-record-btn icon new edit" id="prev-record-form-btn" type="button"><i class="fa fa-solid fa-chevron-left"></i></button>
+                    <button class="form-btn prev-record-btn icon edit" id="prev-record-form-btn" type="button"><i class="fa fa-solid fa-chevron-left"></i></button>
                     <button class="form-btn delete-record-btn icon edit" id="delete-record-form-btn" type="button" style="color: #c22"><i class="fa fa-solid fa-trash"></i></button>
-                    <button class="form-btn cancel-record-btn danger new" id="cancel-record-form-btn" type="button">Cancel</button>
-                    <button class="form-btn duplicate-record-btn icon edit" id="duplicate-record-form-btn" type="button" style="color: #02c"><i class="fa fa-solid fa-copy"></i></button>
-                    <button class="form-btn save-record-btn primary new" id="save-record-form-btn" type="button">Save</button>
-                    <button class="form-btn new-record-btn icon edit" id="new-record-form-btn" type="button"><i class="fa fa-solid fa-add"></i></button>
-                    <button class="form-btn next-record-btn icon new edit" id="next-record-form-btn" type="button"><i class="fa fa-solid fa-chevron-right"></i></button>
+                    <!-- <button class="form-btn cancel-record-btn danger new" id="cancel-record-form-btn" type="button">Cancel</button> -->
+                    <button class="form-btn duplicate-record-btn icon new edit" id="duplicate-record-form-btn" type="button" style="color: #02c"><i class="fa fa-solid fa-copy"></i></button>
+                    <!-- <button class="form-btn save-record-btn primary new" id="save-record-form-btn" type="button">Save</button> -->
+                    <button class="form-btn new-record-btn icon new edit" id="new-record-form-btn" type="button"><i class="fa fa-solid fa-add"></i></button>
+                    <button class="form-btn next-record-btn icon edit" id="next-record-form-btn" type="button"><i class="fa fa-solid fa-chevron-right"></i></button>
                 </div>
             </form>
             

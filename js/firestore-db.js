@@ -117,12 +117,6 @@ export async function queryRecords(filterKey, filterValue, orderKey, orderDirect
 
 export async function gettingUpdateRecords() {
     return await getAllRecords();
-    // console.log(recordsList);
-    // return recordsList;
-    /* recordsList.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
-        console.log(new Date(b.date) - new Date(a.date));
-    });*/
 }
 
 /* DOM Generator */
@@ -132,31 +126,6 @@ const historyPageSubtitle = document.getElementById('history-page-subtitle');
 let allRecords = [];
 let currentIndex = 0;
 export async function renderRecordsList() {
-    /* historyListContainer.addEventListener('click', (e) => {
-        const allItems = historyListContainer.querySelectorAll('.record-card');
-        const allCards = historyListContainer.querySelectorAll('.list-card');
-        const clickedCard = e.target.closest('.list-card');
-        if (clickedCard) {
-            const recordCard = clickedCard.parentElement;
-            const isExpend = clickedCard.parentElement.classList.contains('expend');
-            allItems.forEach(item => item.classList.remove('expend'));
-            
-            if (isExpend) {
-                recordCard.classList.remove('expend');
-            } else {
-                recordCard.classList.add('expend');
-            };
-            
-            const index = clickedCard.parentElement.dataset.index;
-            const editBtn = clickedCard.parentElement.querySelector('.edit-record-btn');
-            if (index !== undefined) {
-                currentIndex = parseInt(index);
-                editBtn.addEventListener('click', () => {
-                    showFormWithData(currentIndex);
-                });
-            };
-        };
-    }) */
     historyListContainer.innerHTML = "Loading...";
     
     try {
@@ -183,6 +152,22 @@ export async function renderRecordsList() {
             itemEl.dataset.id = record.id;
             itemEl.dataset.index = index;
             
+            /* Define Sequence Value */
+            switch (record.sequence) {
+                case 'ပထမအကြိမ်':
+                    itemEl.classList.add('seq1');
+                    itemEl.setAttribute('style', '--seq-color: hsla(from var(--color-record-card) 90 90% 40%/0.4);');
+                    break;
+                case 'ဒုတိယအကြိမ်':
+                    itemEl.classList.add('seq2');
+                    itemEl.setAttribute('style', '--seq-color: hsla(from var(--color-record-card) 40 90% 40%/0.4);');
+                    break;
+                case 'တတိယအကြိမ်':
+                    itemEl.classList.add('seq3');
+                    itemEl.setAttribute('style', '--seq-color: hsla(from var(--color-record-card) 5 90% 40%/0.4);');
+                    break;
+            };
+            
             const headerEl = document.createElement('div');
             headerEl.className = 'list-card';
             headerEl.innerHTML = `
@@ -203,23 +188,6 @@ export async function renderRecordsList() {
                     <p class="record-fuelVolume">${record.fuelVolume}<span class="unit">L</span></p>
                 </div>
             `;
-            
-            /* Click လိုက်ရင် Expend / Collapse ဖြစ်ရန် */
-            /* headerEl.addEventListener('click', (e) => {
-                e.preventDefault();
-                historyListContainer.querySelectorAll('.record-card').forEach(item => {
-                    if (item === itemEl) {
-                        if (item.classList.contains('expend')) {
-                            item.classList.remove('expend');
-                        } else {
-                            item.classList.add('expend');
-                        };
-                    } else {
-                        item.classList.remove('expend');
-                    };
-                });
-                itemEl.classList.toggle('expend');
-            }); */
             
             itemEl.appendChild(headerEl);
             
@@ -265,10 +233,15 @@ export async function renderRecordsList() {
 }
 
 function showFormWithData(index) {
-    const currentRecord = allRecords[index];
-    if (!currentRecord) return;
-    console.log(currentRecord)
-    fillFormDatas(currentRecord);
+    currentIndex = index;
+    const currentData = allRecords[index];
+    if (!currentData) return;
+    fillFormDatas(currentData);
+    
+    /* Form Index Info */
+    document.getElementById('current-record-index').textContent = index + 1;
+    document.getElementById('total-records-count').textContent = allRecords.length;
+    
     fuelUpForm.style.transition = "none";
     fuelUpForm.dataset.mode = 'edit-form';
     setTimeout(() => {
@@ -281,20 +254,32 @@ function showFormWithData(index) {
 /* Prev Form Button */
 const prevFormBtn = document.getElementById('prev-record-form-btn');
 prevFormBtn.addEventListener('click', () => {
+    currentIndex = fuelUpForm.dataset.index;
     if (currentIndex > 0) {
         currentIndex--;
         showFormWithData(currentIndex);
     };
+    updateExpendedRecordCard();
 });
 
 /* Next Form Button */
 const nextFormBtn = document.getElementById('next-record-form-btn');
 nextFormBtn.addEventListener('click', () => {
+    currentIndex = fuelUpForm.dataset.index;
     if (currentIndex < allRecords.length) {
         currentIndex++;
         showFormWithData(currentIndex);
     };
+    updateExpendedRecordCard();
 });
+
+/* Update Expended or Collapsed Record Cards */
+function updateExpendedRecordCard() {
+    const cards = historyListContainer.querySelectorAll('.record-card');
+    const index = fuelUpForm.dataset.index;
+    cards.forEach(card => card.classList.remove('expend'));
+    cards[index].classList.add('expend');
+}
 
 /* Update Buttons State depend on index */
 function updateFormButtonStates() {
@@ -304,14 +289,35 @@ function updateFormButtonStates() {
 
 export async function renderHistoryPage() {
     const recordItems = historyListContainer.querySelectorAll('.record-card');
+    
     historyListContainer.addEventListener('click', (e) => {
-        const clickedCard = e.target.closest('.list-card');
-        if (clickedCard) {
-            const clickedItem = clickedCard.parentElement;
+        const clickedCard = e.target.closest('.record-card');
+        const clickedHeader = e.target.closest('.list-card');
+        const clickedEditBtn = e.target.closest('.edit-record-btn');
+        const clickedIndex = allRecords.findIndex(rec => rec.id === clickedCard.dataset.id);
+        const clickedRecordData = allRecords[clickedIndex];
+        
+        if (clickedHeader) {
             recordItems.forEach(item => {
-                if (item !== clickedItem) item.classList.remove('expend');
+                if (item !== clickedCard) {
+                    item.classList.remove('expend')
+                };
             });
-            clickedItem.classList.toggle('expend');
+            clickedCard.classList.toggle('expend');
         };
+        
+        if (clickedEditBtn) {
+            fuelUpForm.dataset.mode = 'edit-form';
+            fuelUpForm.style.transition = 'none';
+            fillFormDatas(clickedRecordData);
+            setTimeout(() => {
+                fuelUpForm.style.transition = '';
+                clickedCard.classList.add('selecting');
+                showFormWithData(clickedIndex);
+            }, 50);
+        };
+        
+        
     })
+    
 }

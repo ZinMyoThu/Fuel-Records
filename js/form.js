@@ -7,10 +7,15 @@ import { addRecord, deleteRecord, getRecord, getAllRecords, gettingUpdateRecords
 /* New Fuel-Up Form */
 export const fuelUpForm = document.getElementById('fuel-up-form');
 const dropdownInputs = document.querySelectorAll('.dropdown-input');
-const closeFormBtn = document.getElementById('close-fuelup-form-btn');
-const resetFormBtn = document.getElementById('reset-fuelup-form-btn');
-const cancelFormBtn = document.getElementById('cancel-record-form-btn');
-const saveFormBtn = document.getElementById('save-record-form-btn');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const resetFormBtn = document.getElementById('reset-form-btn');
+const duplicateFormBtn = document.getElementById('duplicate-record-form-btn');
+const doneFormBtn = document.getElementById('done-form-btn');
+const formTitle = fuelUpForm.querySelector('.modal-title');
+const formSubtitle = fuelUpForm.querySelector('.modal-subtitle');
+const currentIndexOfTotalInfo = fuelUpForm.querySelector('.current-index-info');
+const currentRecordIndexSpan = document.getElementById('current-record-index');
+const totalRecordsCountSpan = document.getElementById('total-records-count');
 
 /* Initial Form Datas */
 export const initialFormData = {
@@ -26,9 +31,13 @@ export const initialFormData = {
     notes: ""
 };
 
+/* Global Variables */
+const historyListContainer = document.getElementById('fuel-records-container');
+
 export async function fuelUpFormFunc() {
+    
     /* Save Form Button */
-    saveFormBtn.addEventListener('click', (e) => {
+    doneFormBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const data = getFormDatas();
         const recordData = {};
@@ -49,14 +58,8 @@ export async function fuelUpFormFunc() {
         fillFormDatas(initialFormData);
     });
     
-    /* Cancel Form Button */
-    cancelFormBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeFuelForm();
-    });
-    
     /* Close Form Button */
-    closeFormBtn.addEventListener('click', (e) => {
+    closeModalBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         closeFuelForm();
     });
@@ -155,9 +158,15 @@ function getFormDatas() {
     return formValues;
 }
 
-/* Set Fuel Form Data Values */
-export function fillFormDatas(data) {
+// Filling Form Inputs Values
+export async function fillFormDatas(data) {
+    if (fuelUpForm.dataset.mode === 'new-form') {
+        formTitle.textContent = 'New Fuel-Up';
+    } else {
+        formTitle.textContent = 'Edit Fuel Record';
+    }
     fuelUpForm.dataset.docid = data.id;
+    fuelUpForm.dataset.index = data.index;
     const formInputs = fuelUpForm.querySelectorAll('.input-input');
     formInputs.forEach(input => {
         const key = input.id.replace('-input', '');
@@ -169,9 +178,19 @@ export function fillFormDatas(data) {
                 targetRadio.checked = true;
                 const changeEvent = new Event('change', { bubbles: true });
                 targetRadio.dispatchEvent(changeEvent);
-            }
-        }
-    })
+            };
+        };
+    });
+    
+    updateCurrentFormIndexInfo(data.index);
+}
+
+/* Open Form */
+async function updateCurrentFormIndexInfo(currentIndex) {
+    const allDatas = await gettingUpdateRecords();
+    const totalNumOfRecords = allDatas.length;
+    currentRecordIndexSpan.textContent = currentIndex + 1;
+    totalRecordsCountSpan.textContent = totalNumOfRecords;
 }
 
 /* Open Form */
@@ -180,8 +199,22 @@ export function openFuelForm() {
 }
 
 /* Close Form */
-function closeFuelForm() {
-    fuelUpForm.classList.remove('show');
+export async function closeFuelForm() {
+    const formMode = fuelUpForm.dataset.mode;
+    const formIndex = fuelUpForm.dataset.index;
+    const cards = historyListContainer.querySelectorAll('.record-card');
+    const currentCard = cards[formIndex];
+    const allDatas = await gettingUpdateRecords();
+    const currentRecordData = allDatas[formIndex];
+    switch (formMode) {
+        case 'new-form':
+            fuelUpForm.classList.remove('show');
+            break;
+        case 'edit-form':
+            fuelUpForm.classList.remove('show');
+            currentCard.classList.remove('selecting');
+            break;
+    };
 }
 
 /* Close All Forms */

@@ -13,12 +13,6 @@ const closeFuelUpFormBtn = document.getElementById('close-fuelup-form-btn');
 export async function historyPage() {
     const page = document.getElementById('history-page');
     const pageContent = page.querySelector('.page-content');
-    
-    /* Create Page Action Button - Add New Record Button */
-    const actionBtn = document.createElement('button');
-    actionBtn.className = 'page-float-action-btn';
-    actionBtn.id = 'new-fuelup-action-btn';
-    
 } // End Of historyPage()
 
 

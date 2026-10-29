@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 const alertBox = document.getElementById('alert-box');
 
 export function showAlertBox(title, message, buttons, verticalButtons) {
-    console.log(`showAlertBox(title, message, buttons, verticalButtons);\ntitle: String,\nmessage: String,\nbuttons: Array,\nverticalButtons: Boolean`);
     alertBox.querySelector('.alert-title').textContent = title;
     alertBox.querySelector('.alert-message').textContent = message;
     const alertBtnsRow = alertBox.querySelector('.alert-btns-row');

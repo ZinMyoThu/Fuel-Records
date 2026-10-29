@@ -1,4 +1,5 @@
 import { fuelUpForm, openFuelForm, fillFormDatas, initialFormData } from '/js/form.js';
+import { getAllRecords } from '/js/firestore-db.js';
 
 const pages = document.querySelectorAll('.page');
 const navbar = document.getElementById('bottom-navbar');
@@ -47,16 +48,21 @@ export function selectPage(targetPage) {
     targetPage.classList.add('actived');
 }
 
-function actionButton() {
+
+async function actionButton() {
+    const allDatas = await getAllRecords();
+
     const actionBtn = document.createElement('button');
     actionBtn.className = 'navbar-float-action-btn';
     actionBtn.id = 'navbarFloatActionBtn';
     navbar.appendChild(actionBtn);
     
     actionBtn.addEventListener('click', (e) => {
-        fillFormDatas(initialFormData);
         fuelUpForm.style.transition = 'none';
         fuelUpForm.dataset.mode = 'new-form';
+        fuelUpForm.dataset.index = allDatas.length + 1;
+        
+        fillFormDatas(initialFormData);
         setTimeout(() => {
             fuelUpForm.style.transition = '';
             openFuelForm();
